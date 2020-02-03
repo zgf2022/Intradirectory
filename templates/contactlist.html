@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+{% block content %} 
+    {% for listing in listings %}
+            <div class="card p-3 rounded">
+            <div class="card-body">
+              <h3>{{ listing.contactname }} |
+              {{ listing.phonenumber}}</h3>
+            
+            </div>
+            </div>
+    {% endfor %}
+{% endblock content %}

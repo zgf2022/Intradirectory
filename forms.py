@@ -20,3 +20,8 @@ class ItemForm(FlaskForm):
 class SettingsForm(FlaskForm):
 	appname = StringField('Directory Title')
 	submit = SubmitField('Save Changes')
+
+class AddForm(FlaskForm):
+	contactname = StringField('Contact Name')
+	phonenumber = StringField('Phone Number or Extension')
+	submit = SubmitField('Save Changes')
