@@ -1,2 +1,3 @@
 # Intradirectory
- Intranet directory tool
+ Intranet directory tool using flask and sqalchemy
+
