@@ -16,9 +16,10 @@ class listing(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	phonenumber = db.Column(db.String(25), nullable=True)
 	contactname = db.Column(db.String(25), nullable=True)
+	note = db.Column(db.String(200),nullable=True)
 
 	def __repr__(self):
-		return f"listing('{self.id}', '{self.phonenumber}', '{self.contactname}')"
+		return f"listing('{self.id}', '{self.phonenumber}', '{self.contactname}', '{self.note}')"
 
 class settings(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
@@ -39,7 +40,7 @@ def home():
 def addcontact():
 	form = AddForm()
 	if form.validate_on_submit():
-		listingdb = listing(contactname=form.contactname.data, phonenumber=form.phonenumber.data)
+		listingdb = listing(contactname=form.contactname.data, phonenumber=form.phonenumber.data, note=form.note.data)
 		db.session.add(listingdb)
 		db.session.commit()
 		flash('Listing added', 'success')
