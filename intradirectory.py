@@ -1,7 +1,7 @@
 from flask import Flask, render_template, url_for, flash, redirect, request
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
-from forms import SettingsForm, AddForm
+from forms import SettingsForm, AddForm, SearchForm
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '57e8728bb0b13ce0c676dfde280ba245'
@@ -24,10 +24,16 @@ class settings(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	appname = db.Column(db.String(30), nullable=False)
 
-@app.route("/")
+@app.route("/", methods=['GET', 'POST'])
 def home():
-	listings = listing.query.all()
-	return render_template('contactlist.html', config=config, listings=listings)
+	form = SearchForm()
+	listings = listing.query
+	if form.validate_on_submit():
+		listings = listings.filter(listing.contactname.like('%' + form.searchterm.data + '%'))
+		listings = listings.order_by(listing.contactname).all()
+	else:
+		listings = listing.query.all()
+	return render_template('contactlist.html', form=form, config=config, listings=listings)
 
 @app.route("/addcontact", methods=['GET', 'POST'])
 def addcontact():

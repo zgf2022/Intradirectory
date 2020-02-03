@@ -1,12 +1,33 @@
 {% extends "layout.html" %}
 {% block content %} 
+    <form method="POST" action="">
+        {{ form.hidden_tag() }}
+        <fieldset class="form-group">
+            <legend class="border-bottom mb-4">{{ legend }}</legend>
+            <div class="form-group">
+                {{ form.searchterm.label(class="form-control-label") }}
+                {% if form.searchterm.errors %}
+                    {{ form.searchterm(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.searchterm.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.searchterm(class="form-control form-control-lg") }}
+                {% endif %}
+            </div>
+        </fieldset>
+        <div class="form-group">
+            {{ form.submit(class="btn btn-outline-info") }}
+        </div>
+      </form>
     {% for listing in listings %}
             <div class="card p-3 rounded">
-            <div class="card-body">
-              <h3>{{ listing.contactname }} |
-              {{ listing.phonenumber}}</h3>
-            
-            </div>
+              <div class="card-body">
+                <h3>{{ listing.contactname }} |
+                {{ listing.phonenumber}}</h3>
+              </div>
             </div>
     {% endfor %}
 {% endblock content %}

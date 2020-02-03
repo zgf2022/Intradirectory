@@ -25,3 +25,7 @@ class AddForm(FlaskForm):
 	contactname = StringField('Contact Name')
 	phonenumber = StringField('Phone Number or Extension')
 	submit = SubmitField('Save Changes')
+
+class SearchForm(FlaskForm):
+	searchterm = StringField('Search')
+	submit = SubmitField('Search')
