@@ -30,7 +30,7 @@ def home():
 	form = SearchForm()
 	listings = listing.query
 	if form.validate_on_submit():
-		listings = listings.filter(listing.contactname.like('%' + form.searchterm.data + '%'))
+		listings = listings.filter(listing.contactname.like('%' + form.searchterm.data + '%')| listing.phonenumber.like('%' + form.searchterm.data + '%')| listing.note.like('%' + form.searchterm.data + '%'))
 		listings = listings.order_by(listing.contactname).all()
 	else:
 		listings = listing.query.all()
@@ -41,7 +41,7 @@ def admin():
 	form = SearchForm()
 	listings = listing.query
 	if form.validate_on_submit():
-		listings = listings.filter(listing.contactname.like('%' + form.searchterm.data + '%'))
+		listings = listings.filter(listing.contactname.like('%' + form.searchterm.data + '%')| listing.phonenumber.like('%' + form.searchterm.data + '%')| listing.note.like('%' + form.searchterm.data + '%'))
 		listings = listings.order_by(listing.contactname).all()
 	else:
 		listings = listing.query.all()
