@@ -36,6 +36,19 @@ def home():
 		listings = listing.query.all()
 	return render_template('contactlist.html', form=form, config=config, listings=listings)
 
+@app.route("/admin", methods=['GET', 'POST'])
+def admin():
+	form = SearchForm()
+	listings = listing.query
+	if form.validate_on_submit():
+		listings = listings.filter(listing.contactname.like('%' + form.searchterm.data + '%'))
+		listings = listings.order_by(listing.contactname).all()
+	else:
+		listings = listing.query.all()
+	return render_template('admincontactlist.html', form=form, config=config, listings=listings)
+
+
+
 @app.route("/addcontact", methods=['GET', 'POST'])
 def addcontact():
 	form = AddForm()
@@ -44,9 +57,32 @@ def addcontact():
 		db.session.add(listingdb)
 		db.session.commit()
 		flash('Listing added', 'success')
-		return redirect("/")
+		return redirect("/admin")
 	return render_template('newcontact.html', title='New Contact',
 						   form=form, legend='New Contact', config=config)
+
+@app.route("/editcontact", methods=['GET', 'POST'])
+def editcontact():
+	listid = request.form.get("listid")
+	item = db.session.query(listing).get(listid)
+	form = AddForm(obj=item)
+	if form.validate_on_submit():
+		form.populate_obj(item)
+		db.session.add(item)
+		db.session.commit()
+		flash('Listing edited', 'success')
+		return redirect("/admin")
+	return render_template('newcontact.html', title='New Contact',
+						   form=form, listid=listid, legend='New Contact', config=config)
+
+@app.route("/deletecontact", methods=['GET', 'POST'])
+def deletecontact():
+	listid = request.form.get("listid")
+	item = db.session.query(listing).get(listid)
+	db.session.delete(item)
+	db.session.commit()
+	flash('Listing Deleted', 'success')
+	return redirect("/admin")
 
 @app.route("/settings", methods=['GET', 'POST'])
 def settings():

@@ -1,0 +1,46 @@
+{% extends "layout.html" %}
+{% block content %} 
+
+    <form action="\addcontact">
+         <button type="submit">Add Contact</button>
+    </form>
+
+    <form method="POST" action="">
+        {{ form.hidden_tag() }}
+        <fieldset class="form-group">
+            <legend class="border-bottom mb-4">{{ legend }}</legend>
+            <div class="form-group">
+                {{ form.searchterm.label(class="form-control-label") }}
+                {% if form.searchterm.errors %}
+                    {{ form.searchterm(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.searchterm.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.searchterm(class="form-control form-control-lg") }}
+                {% endif %}
+            </div>
+        </fieldset>
+        <div class="form-group">
+            {{ form.submit(class="btn btn-outline-info") }}
+        </div>
+      </form>
+    {% for listing in listings %}
+            <div class="card rounded">
+              <div class="card-body">
+                {{ listing.contactname }} |
+                {{ listing.phonenumber}} | {{ listing.note }} | 
+                <form method="POST" action="\editcontact">
+                    <input type="hidden" id="listid" name="listid" value="{{ listing.id }}">
+                    <input type="submit" name="action" value="Edit"/>
+                </form>
+                <form method="POST" action="\deletecontact">
+                    <input type="hidden" id="listid" name="listid" value="{{ listing.id }}">
+                    <input type="submit" name="action" value="Delete"/>
+                </form>
+              </div>
+            </div>
+    {% endfor %}
+{% endblock content %}
