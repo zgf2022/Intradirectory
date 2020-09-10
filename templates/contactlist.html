@@ -18,10 +18,14 @@
                 {% endif %}
             </div>
         </fieldset>
-        <div class="form-group">
+        <div class="form-group inline">
             {{ form.submit(class="btn btn-outline-info") }}
         </div>
       </form>
+      <form action="\">
+         <button class="btn btn-outline-info inline" type="submit">Clear Search</button>
+    </form>
+    <br class="clearBoth" />
     {% for listing in listings %}
             <div class="card rounded">
               <div class="card-body">

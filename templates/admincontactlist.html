@@ -2,7 +2,7 @@
 {% block content %} 
 
     <form action="\addcontact">
-         <button type="submit">Add Contact</button>
+         <button class="btn btn-outline-info" type="submit">Add Contact</button>
     </form>
 
     <form method="POST" action="">
@@ -23,23 +23,33 @@
                 {% endif %}
             </div>
         </fieldset>
-        <div class="form-group">
+        <div class="form-group inline">
             {{ form.submit(class="btn btn-outline-info") }}
         </div>
       </form>
+      <form action="\admin">
+         <button class="btn btn-outline-info inline" type="submit">Clear Search</button>
+    </form>
+    <br class="clearBoth" />
     {% for listing in listings %}
             <div class="card rounded">
               <div class="card-body">
+               <div class="inline">
                 {{ listing.contactname }} |
                 {{ listing.phonenumber}} | {{ listing.note }} | 
-                <form method="POST" action="\editcontact">
+                </div>
+                <div class="inline">
+                    <form method="POST" action="\editcontact">
                     <input type="hidden" id="listid" name="listid" value="{{ listing.id }}">
-                    <input type="submit" name="action" value="Edit"/>
+                    <input class="btn btn-outline-info" type="submit" name="action" value="Edit"/>
                 </form>
+                </div>
+                <div class="inline">
                 <form method="POST" action="\deletecontact">
                     <input type="hidden" id="listid" name="listid" value="{{ listing.id }}">
-                    <input type="submit" name="action" value="Delete"/>
+                    <input class="btn btn-outline-info inline" type="submit" name="action" value="Delete"/>
                 </form>
+                </div>
               </div>
             </div>
     {% endfor %}
